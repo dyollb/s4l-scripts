@@ -47,7 +47,8 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pip
       - name: Pip install
-        run: pip install s4l_scripts/requirements.txt
+        working-directory: s4l_scripts
+        run: pip install -r requirements.txt
       - name: Test
         working-directory: s4l_scripts
         run: |
