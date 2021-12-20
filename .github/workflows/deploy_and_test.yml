@@ -34,7 +34,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
         with:
-          path: s4l_scripts
+          path: scripts_src
       - name: Setup python ${{ matrix.python-version }}
         uses: actions/setup-python@v2
         with:
@@ -47,15 +47,15 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pip
       - name: Pip install
-        working-directory: s4l_scripts
+        working-directory: scripts_src
         run: pip install .
       - name: Test
-        working-directory: s4l_scripts
+        working-directory: scripts_src
         run: |
           pip install pytest
           pytest tests
       - name: Static analysis
-        working-directory: s4l_scripts
+        working-directory: scripts_src
         run: |
           pip install mypy
           mypy .
