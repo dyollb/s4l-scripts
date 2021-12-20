@@ -4,6 +4,7 @@ from setuptools import setup, find_packages
 
 
 install_requirements = [i.strip() for i in open("requirements.txt").readlines()]
+extra_requirements = [i.strip() for i in open("requirements-test.txt").readlines()]
 
 with open("README.md") as f:
     readme = f.read()
@@ -21,6 +22,7 @@ setup(
     url="https://github.com/dyollb/s4l-scripts.git",
     license=license,
     install_requires=install_requirements,
+    extras_require={"test": extra_requirements},
     packages=find_packages(where="src"),
     package_dir={
         "": "src",

@@ -1,0 +1,12 @@
+{
+    "include": [
+        "src/",
+        "tests/",
+        "scripts/"
+    ],
+    "exclude": [
+    ],
+    "useLibraryCodeForTypes": true,
+    "reportPrivateImportUsage": false,
+    "reportMissingImports": "warning"
+}

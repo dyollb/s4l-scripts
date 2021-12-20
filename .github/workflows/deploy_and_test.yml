@@ -48,14 +48,10 @@ jobs:
             ${{ runner.os }}-pip
       - name: Pip install
         working-directory: scripts_src
-        run: pip install .
+        run: pip install ".[test]"
       - name: Test
         working-directory: scripts_src
-        run: |
-          pip install pytest
-          pytest tests
+        run: pytest tests
       - name: Static analysis
         working-directory: scripts_src
-        run: |
-          pip install mypy
-          mypy src tests
+        run: mypy src tests

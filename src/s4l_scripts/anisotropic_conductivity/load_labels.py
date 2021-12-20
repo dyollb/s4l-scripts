@@ -1,4 +1,4 @@
-import random
+import numpy as np
 from pathlib import Path
 from typing import Dict
 
@@ -48,19 +48,16 @@ def save_iseg_label_info(label_info: Dict[int, str], file_path: Path):
         C1.00 0.00 0.00 0.50 Skin
     """
     max_label = max(label_info.keys())
-    tissue_names = ["tissue%03d" % i for i in range(max_label + 1)]
+    tissue_names = [f"tissue{i}" for i in range(max_label + 1)]
     for id, name in label_info.items():
         tissue_names[id] = name
 
     with open(file_path, "w") as f:
         print("V7", file=f)
-        print("N%d" % max_label, file=f)
+        print(f"N{max_label}", file=f)
         for i in range(1, max_label):
-            # assign random color
-            r = random.randint(0, 255) / 255.0
-            g = random.randint(0, 255) / 255.0
-            b = random.randint(0, 255) / 255.0
-            print("C%.2f %.2f %.2f 0.50 %s" % (r, g, b, tissue_names[i]), file=f)
+            r, g, b = np.random.rand(), np.random.rand(), np.random.rand()
+            print(f"C{r:.2f} {g:.2f} {b:.2f} 0.50 {tissue_names[i]}", file=f)
 
 
 if __name__ == "__main__":
