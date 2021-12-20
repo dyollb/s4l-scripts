@@ -1,7 +1,9 @@
 # Sim4Life Python Scripts
+[![Build Actions Status](https://github.com/dyollb/s4l-scripts/workflows/CI/badge.svg)](https://github.com/dyollb/s4l-scripts/actions)
+[![License](https://img.shields.io/badge/license-MIT-green.svg)](https://https://opensource.org/licenses/MIT)
 This is just a random collection of [Sim4Life](https://zmt.swiss/sim4life/) Python scripts.
 
-Sim4Life is a simulation platform for life scrience applications to investigate interaction between man-made devices and living organisms (e.g. active implants, mobile phones, neuro-stimulation, thermal heating, ...).
+Sim4Life is a simulation platform for life science applications to investigate interaction between man-made devices and living organisms (e.g. active implants, mobile phones, neuro-stimulation, thermal heating, ...).
 It features a powerful CAD/surface-based modeling environment and GPU accelerated physics solvers, enabling simulations with extremely complex anatomical models, such as the [Virtual Population](https://itis.swiss/virtual-population/virtual-population/overview/).
 
 

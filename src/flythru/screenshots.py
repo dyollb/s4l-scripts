@@ -1,4 +1,11 @@
-# -*- coding: utf-8 -*-
+# Copyright (c) 2021 The Foundation for Research on Information Technologies in Society (IT'IS).
+#
+# This file is part of s4l-scripts
+# (see https://github.com/dyollb/s4l-scripts).
+#
+# This software is released under the MIT License.
+#  https://opensource.org/licenses/MIT
+
 import XRendererUI
 import XCore
 from XCoreModeling import Vec3
