@@ -58,4 +58,4 @@ jobs:
         working-directory: scripts_src
         run: |
           pip install mypy
-          mypy .
+          mypy src tests
