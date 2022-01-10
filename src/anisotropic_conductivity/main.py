@@ -8,10 +8,16 @@
 
 import sys
 from pathlib import Path
+import argparse
 
-from .download_data import download_stanford_data
-from .load_labels import load_stanford_label_info, save_iseg_label_info
-from .reconstruct_diffusion_tensors import reconstruct_diffusion_tensors
+from s4l_scripts.anisotropic_conductivity.download_data import download_stanford_data
+from s4l_scripts.anisotropic_conductivity.load_labels import (
+    load_stanford_label_info,
+    save_iseg_label_info,
+)
+from s4l_scripts.anisotropic_conductivity.reconstruct_diffusion_tensors import (
+    reconstruct_diffusion_tensors,
+)
 
 
 def import_in_sim4life(
@@ -26,22 +32,25 @@ def import_in_sim4life(
         return
 
     # not used, but nice to visualize model with MRI
-    t1_image = ImageModeling.ImportImage(t1_file)
+    # t1_image = ImageModeling.ImportImage(f"{t1_file}")
 
     # import label field
-    labelfield = ImageModeling.ImportImage(
-        seg_file, as_labelfield=True, tissuelist_path=tissuelist_file
-    )
+    labelfield = ImageModeling.ImportImage(f"{seg_file}", True, f"{tissuelist_file}")
 
     # extract surface-based model
     surfaces = MeshModeling.ExtractSurface(labelfield, min_edge_length=0.5)
 
+    stl_dir = seg_file.parent / "stl"
+    stl_dir.mkdir(exist_ok=True)
+    for e in surfaces:
+        s4l.model.Export([e], f"{stl_dir / e.Name}.stl")
+
     # load dwi data, compute conductivity
+
     # s4l.analysis.import(s4l_tensors_file) ?
 
 
-def main():
-    data_dir = Path("/Users/lloyd/Models/StandfordData")
+def main(data_dir: Path):
     files = download_stanford_data(download_dir=data_dir)
 
     # reconstruct DTI using the dipy package
@@ -64,6 +73,17 @@ def main():
     assert labels_file.exists()
     assert t1_file.exists()
 
+    import_in_sim4life(t1_file, labels_file, iseg_tissue_list_file, s4l_tensors_file)
+
 
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser(description="Run subject-specific simulation.")
+    parser.add_argument(
+        "--data_dir",
+        dest="data_dir",
+        type=Path,
+        help="Directory to download image data and store simulation",
+    )
+    args = parser.parse_args()
+
+    main(data_dir=args.data_dir)
