@@ -8,5 +8,6 @@
     ],
     "useLibraryCodeForTypes": true,
     "reportPrivateImportUsage": false,
-    "reportMissingImports": "warning"
+    "reportMissingModuleSource": false,
+    "reportMissingImports": "warning",
 }

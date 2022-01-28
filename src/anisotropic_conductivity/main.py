@@ -6,31 +6,26 @@
 # This software is released under the MIT License.
 #  https://opensource.org/licenses/MIT
 
-import sys
 from pathlib import Path
 import argparse
 
-from s4l_scripts.anisotropic_conductivity.download_data import download_stanford_data
-from s4l_scripts.anisotropic_conductivity.load_labels import (
+from anisotropic_conductivity.download_data import download_stanford_data
+from anisotropic_conductivity.load_labels import (
     load_stanford_label_info,
     save_iseg_label_info,
 )
-from s4l_scripts.anisotropic_conductivity.reconstruct_diffusion_tensors import (
+from anisotropic_conductivity.reconstruct_diffusion_tensors import (
     reconstruct_diffusion_tensors,
 )
+
+from s4l_v1 import model
+import ImageModeling
+import MeshModeling
 
 
 def import_in_sim4life(
     t1_file: Path, seg_file: Path, tissuelist_file: Path, s4l_tensors_file: Path
 ):
-    try:
-        import s4l_v1 as s4l
-        import ImageModeling  # TODO: make sure this works with s4l
-        import MeshModeling  # TODO: make sure this works with s4l
-    except ImportError as error:
-        print("ERROR: Could not import Sim4Life Python modules", sys.exc_info()[0])
-        return
-
     # not used, but nice to visualize model with MRI
     # t1_image = ImageModeling.ImportImage(f"{t1_file}")
 
@@ -38,12 +33,12 @@ def import_in_sim4life(
     labelfield = ImageModeling.ImportImage(f"{seg_file}", True, f"{tissuelist_file}")
 
     # extract surface-based model
-    surfaces = MeshModeling.ExtractSurface(labelfield, min_edge_length=0.5)
+    surfaces = MeshModeling.ExtractSurface(labelfield, min_edge_length=0.5)  # type: ignore[arg-type]
 
     stl_dir = seg_file.parent / "stl"
     stl_dir.mkdir(exist_ok=True)
     for e in surfaces:
-        s4l.model.Export([e], f"{stl_dir / e.Name}.stl")
+        model.Export([e], f"{stl_dir / e.Name}.stl")
 
     # load dwi data, compute conductivity
 
